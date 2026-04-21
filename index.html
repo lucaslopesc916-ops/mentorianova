@@ -304,20 +304,12 @@ const QUESTIONS = [
   { id:3,  sec:"Dados básicos",            text:"WhatsApp",                                                   type:"tel",      req:true  },
   { id:4,  sec:"Dados básicos",            text:"@ do Instagram",                                            type:"text",     req:true,  ph:"@seuinstagram" },
   { id:5,  sec:"Sobre você e seu negócio", text:"O que você faz?",                                           type:"text",     hint:"Uma frase. Ex: Empresário no ramo de saúde / Líder comercial em indústria" },
-  { id:6,  sec:"Sobre você e seu negócio", text:"Há quanto tempo você trabalha com isso?",                   type:"radio",    opts:["Menos de 1 ano","1 a 3 anos","3 a 5 anos","5 a 10 anos","Mais de 10 anos"] },
-  { id:7,  sec:"Sobre você e seu negócio", text:"Qual o tamanho da sua empresa hoje?",                       type:"text",     hint:"Faturamento mensal ou número de funcionários — o que preferir compartilhar" },
   { id:8,  sec:"Sobre você e seu negócio", text:"Quantas pessoas você lidera ou tem no seu time?",           type:"radio",    opts:["Só eu","2 a 5","6 a 15","16 a 50","Mais de 50"] },
-  { id:9,  sec:"Sobre IA",                 text:"Como a IA está inserida no seu dia a dia hoje?",            type:"textarea", req:true  },
-  { id:10, sec:"Sobre IA",                 text:"Qual seu nível de maturidade com IA?",                      type:"radio",    req:true, opts:["Nunca usei","Uso pontualmente","Uso com frequência","Já implementei no meu negócio"] },
-  { id:11, sec:"Sobre IA",                 text:"Quais ferramentas de IA você já usa ou já tentou usar?",    type:"text",     hint:"Ex: ChatGPT, Claude, Make, n8n, outros" },
-  { id:12, sec:"Sobre IA",                 text:"Quais são seus maiores travamentos agora?",                 type:"checkbox", req:true, hint:"Selecione 3 a 4",
-    opts:["Não sei por onde começar com IA","Sei usar, mas não consigo aplicar no meu negócio","Falta de tempo para aprender e implementar","Meu time não adota as ferramentas","Não sei quais processos automatizar","Tenho medo de depender de tecnologia que não entendo","Não consigo medir se a IA está gerando resultado","Outro"] },
   { id:13, sec:"Intenção e expectativa",   text:"O que você vende ou entrega hoje?",                         type:"textarea", hint:"Descreva brevemente suas ofertas ou serviços." },
   { id:14, sec:"Intenção e expectativa",   text:"Se eu pudesse resolver UM problema pra você nos próximos 30 dias, qual seria?", type:"textarea", hint:"Seja específico. Quanto mais claro, mais consigo te ajudar." },
   { id:15, sec:"Intenção e expectativa",   text:"Daqui a 8 semanas, o que significa sucesso pra você?",      type:"textarea", hint:"O que você quer ter implementado, automatizado ou resolvido? Seja específico." },
   { id:16, sec:"Intenção e expectativa",   text:"Como você conheceu meu trabalho?",                          type:"radio", req:true,
     opts:["Instagram","YouTube","Indicação de alguém","Evento presencial","LinkedIn","Outro"] },
-  { id:17, sec:"Intenção e expectativa",   text:"Tem algo que você gostaria que eu soubesse sobre você antes de começar?", type:"textarea", hint:"Opcional. Mas se tiver algo relevante, me conta aqui." },
   { id:18, sec:"O Programa", type:"info",
     title:"Programa de Aceleração de Negócios com IA",
     body:`Perfeito! Então eu quero te apresentar o <b>Programa de Aceleração de Negócios com IA</b>.<br><br>
@@ -604,20 +596,12 @@ async function notifyStevo() {
     f('Instagram', answers[4]) +
     `\n` +
     f('O que faz', answers[5]) +
-    f('Tempo de trabalho', answers[6]) +
-    f('Tamanho empresa', answers[7]) +
     f('Tamanho time', answers[8]) +
-    `\n` +
-    f('IA no dia a dia', answers[9]) +
-    f('Maturidade IA', answers[10]) +
-    f('Ferramentas IA', answers[11]) +
-    f('Travamentos', Array.isArray(answers[12]) ? answers[12].join(' | ') : answers[12]) +
     `\n` +
     f('O que vende', answers[13]) +
     f('Problema 30 dias', answers[14]) +
     f('Sucesso 8 semanas', answers[15]) +
     f('Como conheceu', answers[16]) +
-    f('Info adicional', answers[17]) +
     `\n🎯 *Qualificação*\n` +
     f('Disponibilidade', answers[19]) +
     f('Investimento', answers[20]) +
@@ -639,7 +623,7 @@ async function notifyLead() {
   const oQueFaz    = answers[5] || 'sua área';
   const problema   = answers[14] || 'seus desafios atuais';
   const text =
-    `Opa! Vi aqui que preencheu o formulário e que hoje tem uma empresa de *${oQueFaz}* e que busca resolver *${problema}*. Pra podermos alinhar, hoje o que te motivou preencher esse formulário?`;
+    `Opa! Vi aqui que preencheu o formulário e que hoje tem uma empresa de *${oQueFaz}* e que busca resolver *${problema}*.\n\nMe conta: o que hoje mais tá te travando ou te fazendo perder dinheiro/tempo no seu negócio que você acredita que a IA poderia resolver?`;
   try {
     await fetch(`${STEVO_URL}/send/text`, {
       method: 'POST',
@@ -659,18 +643,11 @@ async function submitToSupabase() {
     whatsapp:         answers[3]  || null,
     instagram:        answers[4]  || null,
     o_que_faz:        answers[5]  || null,
-    tempo_trabalho:   answers[6]  || null,
-    tamanho_empresa:  answers[7]  || null,
     tamanho_time:     answers[8]  || null,
-    ia_dia_a_dia:     answers[9]  || null,
-    maturidade_ia:    answers[10] || null,
-    ferramentas_ia:   answers[11] || null,
-    travamentos:      Array.isArray(answers[12]) ? answers[12].join(' | ') : (answers[12] || null),
     o_que_vende:      answers[13] || null,
     problema_30_dias: answers[14] || null,
     sucesso_8_semanas:answers[15] || null,
     como_conheceu:    answers[16] || null,
-    info_adicional:   answers[17] || null,
     disponibilidade:  answers[19] || null,
     investimento:     answers[20] || null,
     quer_cursos:      answers[22] || null,
