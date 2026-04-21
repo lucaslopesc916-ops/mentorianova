@@ -633,8 +633,9 @@ async function notifyStevo() {
 }
 
 async function notifyLead() {
-  const numero = (answers[3] || '').replace(/\D/g, '');
+  let numero = (answers[3] || '').replace(/\D/g, '');
   if (!numero) return;
+  if (!numero.startsWith('55')) numero = '55' + numero;
   const oQueFaz    = answers[5] || 'sua área';
   const problema   = answers[14] || 'seus desafios atuais';
   const text =
