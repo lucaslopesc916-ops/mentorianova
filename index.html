@@ -330,7 +330,7 @@ Dentro do programa, você terá acesso não a um curso… mas a um <b>PLANO</b>:
 ➡️ proximidade real com quem tá no campo de batalha todos os dias.` },
   { id:19, sec:"Qualificação", text:"Você tem disponibilidade de tempo pra executar o plano que for traçado na mentoria?", type:"radio", req:true,
     opts:["Sim, tenho tempo e energia pra isso","Tenho pouco tempo, mas dou um jeito","Não, no momento não"] },
-  { id:20, sec:"Qualificação", text:"Esse é um programa de mentoria com investimento na faixa de 5k a 12k. Você tem condições de investir nesse momento sem comprometer sua operação?", type:"radio", req:true,
+  { id:20, sec:"Qualificação", text:"Temos mentoria em grupo (2k a 5k) e individual (6k a 18k). Você tem condições de investir nesse momento sem comprometer sua operação?", type:"radio", req:true,
     opts:["Sim, com certeza consigo","Sim, mas com planejamento","Não nesse momento"] },
   { id:21, sec:"Outra opção", type:"info",
     showIf: () => answers[20] === "Não nesse momento",
@@ -342,7 +342,7 @@ Dentro do programa, você terá acesso não a um curso… mas a um <b>PLANO</b>:
 ];
 
 const WHATSAPP_URL = 'https://wa.me/5534997285143?text=Oi%20Lucas%2C%20acabei%20de%20enviar%20minha%20aplica%C3%A7%C3%A3o';
-const CURSOS_URL   = 'https://pay.kiwify.com.br/9z7AF2U';
+const CURSOS_URL   = 'https://claudesemcodigo.winneria.com.br/';
 
 const KEYS = 'ABCDEFGHIJKLMNOP';
 const answers = {};
@@ -539,6 +539,7 @@ function go(dir) {
   if (dir === 1 && next === TOTAL-1) {
     submitToSupabase();
     notifyStevo();
+    notifyLead();
     renderClosing();
   }
 
@@ -629,6 +630,22 @@ async function notifyStevo() {
       body: JSON.stringify({ delay: 1, formatJid: true, number: STEVO_NUMBER, text })
     });
   } catch (e) { console.error('Stevo error', e); }
+}
+
+async function notifyLead() {
+  const numero = (answers[3] || '').replace(/\D/g, '');
+  if (!numero) return;
+  const oQueFaz    = answers[5] || 'sua área';
+  const problema   = answers[14] || 'seus desafios atuais';
+  const text =
+    `Opa! Vi aqui que preencheu o formulário e que hoje tem uma empresa de *${oQueFaz}* e que busca resolver *${problema}*. Pra podermos alinhar, hoje o que te motivou preencher esse formulário?`;
+  try {
+    await fetch(`${STEVO_URL}/send/text`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': STEVO_KEY },
+      body: JSON.stringify({ delay: 5, formatJid: true, number: numero, text })
+    });
+  } catch (e) { console.error('Stevo lead error', e); }
 }
 
 const SUPABASE_URL = 'https://errofscpxzcbhloutdpb.supabase.co';
