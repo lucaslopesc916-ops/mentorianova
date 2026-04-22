@@ -299,36 +299,18 @@ const CONFIG = {
 ───────────────────────────────────────────── */
 
 const QUESTIONS = [
-  { id:1,  sec:"Dados básicos",            text:"Seu nome completo",                                          type:"text",     req:true  },
-  { id:2,  sec:"Dados básicos",            text:"Seu melhor e-mail",                                          type:"email",    req:true  },
-  { id:3,  sec:"Dados básicos",            text:"WhatsApp",                                                   type:"tel",      req:true  },
-  { id:4,  sec:"Dados básicos",            text:"@ do Instagram",                                            type:"text",     req:true,  ph:"@seuinstagram" },
-  { id:5,  sec:"Sobre você e seu negócio", text:"O que você faz?",                                           type:"text",     hint:"Uma frase. Ex: Empresário no ramo de saúde / Líder comercial em indústria" },
-  { id:6,  sec:"Sobre você e seu negócio", text:"Quantas pessoas você lidera ou tem no seu time?",           type:"radio",    opts:["Só eu","2 a 5","6 a 15","16 a 50","Mais de 50"] },
-  { id:7,  sec:"Intenção e expectativa",   text:"Se eu pudesse resolver UM problema pra você nos próximos 30 dias, qual seria?", type:"textarea", hint:"Seja específico. Quanto mais claro, mais consigo te ajudar." },
-  { id:8,  sec:"O Programa", type:"info",
-    title:"Programa de Aceleração de Negócios com IA",
-    body:`Perfeito! Então eu quero te apresentar o <b>Programa de Aceleração de Negócios com IA</b>.<br><br>
-Dentro do programa, você terá acesso não a um curso… mas a um <b>PLANO</b>:<br><br>
-➡️ diagnóstico estratégico individualizado e personalizado 100% para você – feito por mim.<br>
-➡️ plano claro do que construir – desenhado a quatro mãos, eu e você.<br>
-➡️ acompanhamento direto comigo.<br>
-➡️ Implementação guiada 1:1 individuais comigo<br>
-➡️ ambiente estratégico de troca com outros participantes e grupo vip do seu negócio.<br>
-➡️ proximidade real com quem tá no campo de batalha todos os dias.` },
-  { id:9,  sec:"Qualificação", text:"Temos mentoria em grupo (2k a 5k) e individual (6k a 18k). Você tem condições de investir nesse momento sem comprometer sua operação?", type:"radio", req:true,
-    opts:["Sim, com certeza consigo","Sim, mas com planejamento","Não nesse momento"] },
-  { id:10, sec:"Outra opção", type:"info",
-    showIf: () => answers[9] === "Não nesse momento",
-    title:"Sem problema — tenho outro caminho pra você",
-    body:`Entendo o momento. Eu tenho <b>cursos 100% mão na massa</b> que podem ser o início perfeito da sua jornada com IA — você aprende no seu ritmo e já começa a aplicar no seu negócio.<br><br>Pode ser exatamente o passo certo agora.` },
-  { id:11, sec:"Outra opção", text:"Quer acessar?", type:"radio", req:true,
-    showIf: () => answers[9] === "Não nesse momento",
-    opts:["Sim, quero conhecer os cursos","Não, obrigado"] },
+  { id:1,  sec:"Sobre você e seu negócio", text:"O que você faz?",                                           type:"text",     hint:"Uma frase. Ex: Empresário no ramo de saúde / Líder comercial em indústria" },
+  { id:2,  sec:"Sobre você e seu negócio", text:"Quantas pessoas você lidera ou tem no seu time?",           type:"radio",    opts:["Só eu","2 a 5","6 a 15","16 a 50","Mais de 50"] },
+  { id:3,  sec:"Sobre você e seu negócio", text:"Se eu pudesse resolver UM problema pra você nos próximos 30 dias, qual seria?", type:"textarea", hint:"Seja específico. Quanto mais claro, mais consigo te ajudar." },
+  { id:4,  sec:"Qualificação",             text:"Qual o faturamento mensal do seu negócio?",                  type:"radio", req:true,
+    opts:["Ainda não faturo","Até R$ 10 mil","R$ 10 mil a R$ 50 mil","R$ 50 mil a R$ 100 mil","R$ 100 mil a R$ 500 mil","Acima de R$ 500 mil"] },
+  { id:5,  sec:"Dados básicos",            text:"Seu nome completo",                                          type:"text",     req:true  },
+  { id:6,  sec:"Dados básicos",            text:"Seu melhor e-mail",                                          type:"email",    req:true  },
+  { id:7,  sec:"Dados básicos",            text:"WhatsApp",                                                   type:"tel",      req:true  },
+  { id:8,  sec:"Dados básicos",            text:"@ do Instagram",                                            type:"text",     req:true,  ph:"@seuinstagram" },
 ];
 
 const WHATSAPP_URL = 'https://wa.me/5534997285143?text=Oi%20Lucas%2C%20acabei%20de%20enviar%20minha%20aplica%C3%A7%C3%A3o';
-const CURSOS_URL   = 'https://claudesemcodigo.winneria.com.br/';
 
 const KEYS = 'ABCDEFGHIJKLMNOP';
 const answers = {};
@@ -483,25 +465,10 @@ function validate(idx) {
 function renderClosing() {
   const el = document.getElementById(`slide-${QUESTIONS.length+1}`);
   if (!el) return;
-  const wantsCursos = answers[11] === "Sim, quero conhecer os cursos";
-  const semGrana    = answers[9] === "Não nesse momento";
-  let tag, h2, p, btn;
-  if (wantsCursos) {
-    tag = "Bora começar";
-    h2  = "Ótimo! Vou te mandar o acesso aos cursos.";
-    p   = "Clique no botão abaixo pra conhecer os cursos mão na massa 👇";
-    btn = `<a class="btn" style="margin-top:2rem;text-decoration:none" href="${CURSOS_URL}" target="_blank" rel="noopener">Ver os cursos →</a>`;
-  } else if (semGrana) {
-    tag = "Recebido";
-    h2  = "Obrigado pela sua sinceridade.";
-    p   = "Quando fizer sentido pra você, volta aqui. Te desejo muito sucesso na sua jornada.";
-    btn = "";
-  } else {
-    tag = "Aplicação recebida";
-    h2  = "Maravilha! Vamos analisar sua aplicação e te enviamos mensagem em até 24h!";
-    p   = "Agora clique no botão abaixo pra falar no WhatsApp sobre sua aplicação e tirar qualquer dúvida 👇";
-    btn = `<a class="btn" style="margin-top:2rem;text-decoration:none" href="${WHATSAPP_URL}" target="_blank" rel="noopener">Falar no WhatsApp →</a>`;
-  }
+  const tag = "Aplicação recebida";
+  const h2  = "Maravilha! Vamos analisar sua aplicação e te enviamos mensagem em até 24h!";
+  const p   = "Agora clique no botão abaixo pra falar no WhatsApp sobre sua aplicação e tirar qualquer dúvida 👇";
+  const btn = `<a class="btn" style="margin-top:2rem;text-decoration:none" href="${WHATSAPP_URL}" target="_blank" rel="noopener">Falar no WhatsApp →</a>`;
   el.innerHTML = `
     <div class="tag">${tag}</div>
     <h2>${h2}</h2>
@@ -584,18 +551,16 @@ async function notifyStevo() {
   const f = (label, val) => val ? `*${label}:* ${val}\n` : '';
   const text =
     `🚀 *Novo lead — Aceleração com IA*\n\n` +
-    f('Nome', answers[1]) +
-    f('E-mail', answers[2]) +
-    f('WhatsApp', answers[3]) +
-    f('Instagram', answers[4]) +
+    f('Nome', answers[5]) +
+    f('E-mail', answers[6]) +
+    f('WhatsApp', answers[7]) +
+    f('Instagram', answers[8]) +
     `\n` +
-    f('O que faz', answers[5]) +
-    f('Tamanho time', answers[6]) +
-    `\n` +
-    f('Problema 30 dias', answers[7]) +
+    f('O que faz', answers[1]) +
+    f('Tamanho time', answers[2]) +
+    f('Problema 30 dias', answers[3]) +
     `\n🎯 *Qualificação*\n` +
-    f('Investimento', answers[9]) +
-    f('Quer cursos', answers[11]);
+    f('Faturamento', answers[4]);
 
   try {
     await fetch(`${STEVO_URL}/send/text`, {
@@ -607,11 +572,11 @@ async function notifyStevo() {
 }
 
 async function notifyLead() {
-  let numero = (answers[3] || '').replace(/\D/g, '');
+  let numero = (answers[7] || '').replace(/\D/g, '');
   if (!numero) return;
   if (!numero.startsWith('55')) numero = '55' + numero;
-  const oQueFaz    = answers[5] || 'sua área';
-  const problema   = answers[7] || 'seus desafios atuais';
+  const oQueFaz    = answers[1] || 'sua área';
+  const problema   = answers[3] || 'seus desafios atuais';
   const text =
     `Opa! Vi aqui que preencheu o formulário e que hoje tem uma empresa de *${oQueFaz}* e que busca resolver *${problema}*.\n\nMe conta: o que hoje mais tá te travando ou te fazendo perder dinheiro/tempo no seu negócio que você acredita que a IA poderia resolver?`;
   try {
@@ -628,15 +593,14 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 
 async function submitToSupabase() {
   const payload = {
-    nome:             answers[1]  || null,
-    email:            answers[2]  || null,
-    whatsapp:         answers[3]  || null,
-    instagram:        answers[4]  || null,
-    o_que_faz:        answers[5]  || null,
-    tamanho_time:     answers[6]  || null,
-    problema_30_dias: answers[7]  || null,
-    investimento:     answers[9]  || null,
-    quer_cursos:      answers[11] || null,
+    o_que_faz:        answers[1]  || null,
+    tamanho_time:     answers[2]  || null,
+    problema_30_dias: answers[3]  || null,
+    faturamento:      answers[4]  || null,
+    nome:             answers[5]  || null,
+    email:            answers[6]  || null,
+    whatsapp:         answers[7]  || null,
+    instagram:        answers[8]  || null,
   };
   try {
     await fetch(`${SUPABASE_URL}/rest/v1/leads_aceleracao`, {
