@@ -305,12 +305,8 @@ const QUESTIONS = [
   { id:4,  sec:"Dados básicos",            text:"@ do Instagram",                                            type:"text",     req:true,  ph:"@seuinstagram" },
   { id:5,  sec:"Sobre você e seu negócio", text:"O que você faz?",                                           type:"text",     hint:"Uma frase. Ex: Empresário no ramo de saúde / Líder comercial em indústria" },
   { id:6,  sec:"Sobre você e seu negócio", text:"Quantas pessoas você lidera ou tem no seu time?",           type:"radio",    opts:["Só eu","2 a 5","6 a 15","16 a 50","Mais de 50"] },
-  { id:7,  sec:"Intenção e expectativa",   text:"O que você vende ou entrega hoje?",                         type:"textarea", hint:"Descreva brevemente suas ofertas ou serviços." },
-  { id:8,  sec:"Intenção e expectativa",   text:"Se eu pudesse resolver UM problema pra você nos próximos 30 dias, qual seria?", type:"textarea", hint:"Seja específico. Quanto mais claro, mais consigo te ajudar." },
-  { id:9,  sec:"Intenção e expectativa",   text:"Daqui a 8 semanas, o que significa sucesso pra você?",      type:"textarea", hint:"O que você quer ter implementado, automatizado ou resolvido? Seja específico." },
-  { id:10, sec:"Intenção e expectativa",   text:"Como você conheceu meu trabalho?",                          type:"radio", req:true,
-    opts:["Instagram","YouTube","Indicação de alguém","Evento presencial","LinkedIn","Outro"] },
-  { id:11, sec:"O Programa", type:"info",
+  { id:7,  sec:"Intenção e expectativa",   text:"Se eu pudesse resolver UM problema pra você nos próximos 30 dias, qual seria?", type:"textarea", hint:"Seja específico. Quanto mais claro, mais consigo te ajudar." },
+  { id:8,  sec:"O Programa", type:"info",
     title:"Programa de Aceleração de Negócios com IA",
     body:`Perfeito! Então eu quero te apresentar o <b>Programa de Aceleração de Negócios com IA</b>.<br><br>
 Dentro do programa, você terá acesso não a um curso… mas a um <b>PLANO</b>:<br><br>
@@ -320,16 +316,14 @@ Dentro do programa, você terá acesso não a um curso… mas a um <b>PLANO</b>:
 ➡️ mentorias individuais comigo.<br>
 ➡️ ambiente estratégico de troca com outros participantes e grupo vip do seu negócio.<br>
 ➡️ proximidade real com quem tá no campo de batalha todos os dias.` },
-  { id:12, sec:"Qualificação", text:"Você tem disponibilidade de tempo pra executar o plano que for traçado na mentoria?", type:"radio", req:true,
-    opts:["Sim, tenho tempo e energia pra isso","Tenho pouco tempo, mas dou um jeito","Não, no momento não"] },
-  { id:13, sec:"Qualificação", text:"Temos mentoria em grupo (2k a 5k) e individual (6k a 18k). Você tem condições de investir nesse momento sem comprometer sua operação?", type:"radio", req:true,
+  { id:9,  sec:"Qualificação", text:"Temos mentoria em grupo (2k a 5k) e individual (6k a 18k). Você tem condições de investir nesse momento sem comprometer sua operação?", type:"radio", req:true,
     opts:["Sim, com certeza consigo","Sim, mas com planejamento","Não nesse momento"] },
-  { id:14, sec:"Outra opção", type:"info",
-    showIf: () => answers[13] === "Não nesse momento",
+  { id:10, sec:"Outra opção", type:"info",
+    showIf: () => answers[9] === "Não nesse momento",
     title:"Sem problema — tenho outro caminho pra você",
     body:`Entendo o momento. Eu tenho <b>cursos 100% mão na massa</b> que podem ser o início perfeito da sua jornada com IA — você aprende no seu ritmo e já começa a aplicar no seu negócio.<br><br>Pode ser exatamente o passo certo agora.` },
-  { id:15, sec:"Outra opção", text:"Quer acessar?", type:"radio", req:true,
-    showIf: () => answers[13] === "Não nesse momento",
+  { id:11, sec:"Outra opção", text:"Quer acessar?", type:"radio", req:true,
+    showIf: () => answers[9] === "Não nesse momento",
     opts:["Sim, quero conhecer os cursos","Não, obrigado"] },
 ];
 
@@ -489,8 +483,8 @@ function validate(idx) {
 function renderClosing() {
   const el = document.getElementById(`slide-${QUESTIONS.length+1}`);
   if (!el) return;
-  const wantsCursos = answers[15] === "Sim, quero conhecer os cursos";
-  const semGrana    = answers[13] === "Não nesse momento";
+  const wantsCursos = answers[11] === "Sim, quero conhecer os cursos";
+  const semGrana    = answers[9] === "Não nesse momento";
   let tag, h2, p, btn;
   if (wantsCursos) {
     tag = "Bora começar";
@@ -598,14 +592,10 @@ async function notifyStevo() {
     f('O que faz', answers[5]) +
     f('Tamanho time', answers[6]) +
     `\n` +
-    f('O que vende', answers[7]) +
-    f('Problema 30 dias', answers[8]) +
-    f('Sucesso 8 semanas', answers[9]) +
-    f('Como conheceu', answers[10]) +
+    f('Problema 30 dias', answers[7]) +
     `\n🎯 *Qualificação*\n` +
-    f('Disponibilidade', answers[12]) +
-    f('Investimento', answers[13]) +
-    f('Quer cursos', answers[15]);
+    f('Investimento', answers[9]) +
+    f('Quer cursos', answers[11]);
 
   try {
     await fetch(`${STEVO_URL}/send/text`, {
@@ -621,7 +611,7 @@ async function notifyLead() {
   if (!numero) return;
   if (!numero.startsWith('55')) numero = '55' + numero;
   const oQueFaz    = answers[5] || 'sua área';
-  const problema   = answers[8] || 'seus desafios atuais';
+  const problema   = answers[7] || 'seus desafios atuais';
   const text =
     `Opa! Vi aqui que preencheu o formulário e que hoje tem uma empresa de *${oQueFaz}* e que busca resolver *${problema}*.\n\nMe conta: o que hoje mais tá te travando ou te fazendo perder dinheiro/tempo no seu negócio que você acredita que a IA poderia resolver?`;
   try {
@@ -644,13 +634,9 @@ async function submitToSupabase() {
     instagram:        answers[4]  || null,
     o_que_faz:        answers[5]  || null,
     tamanho_time:     answers[6]  || null,
-    o_que_vende:      answers[7]  || null,
-    problema_30_dias: answers[8]  || null,
-    sucesso_8_semanas:answers[9]  || null,
-    como_conheceu:    answers[10] || null,
-    disponibilidade:  answers[12] || null,
-    investimento:     answers[13] || null,
-    quer_cursos:      answers[15] || null,
+    problema_30_dias: answers[7]  || null,
+    investimento:     answers[9]  || null,
+    quer_cursos:      answers[11] || null,
   };
   try {
     await fetch(`${SUPABASE_URL}/rest/v1/leads_aceleracao`, {
