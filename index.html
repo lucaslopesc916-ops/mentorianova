@@ -303,7 +303,7 @@ const QUESTIONS = [
   { id:2,  sec:"Sobre você e seu negócio", text:"Quantas pessoas você lidera ou tem no seu time?",           type:"radio",    opts:["Só eu","2 a 5","6 a 15","16 a 50","Mais de 50"] },
   { id:3,  sec:"Sobre você e seu negócio", text:"Se eu pudesse resolver UM problema pra você nos próximos 30 dias, qual seria?", type:"textarea", hint:"Seja específico. Quanto mais claro, mais consigo te ajudar." },
   { id:4,  sec:"Qualificação",             text:"Qual o faturamento mensal do seu negócio?",                  type:"radio", req:true,
-    opts:["Ainda não faturo","Até R$ 10 mil","R$ 10 mil a R$ 50 mil","R$ 50 mil a R$ 100 mil","R$ 100 mil a R$ 500 mil","Acima de R$ 500 mil"] },
+    opts:["Ainda não faturo","Até R$ 10 mil","R$ 10 mil a R$ 30 mil","R$ 30 mil a R$ 50 mil","R$ 50 mil a R$ 100 mil","R$ 100 mil a R$ 500 mil","Acima de R$ 500 mil"] },
   { id:5,  sec:"Dados básicos",            text:"Seu nome completo",                                          type:"text",     req:true  },
   { id:6,  sec:"Dados básicos",            text:"Seu melhor e-mail",                                          type:"email",    req:true  },
   { id:7,  sec:"Dados básicos",            text:"WhatsApp",                                                   type:"tel",      req:true  },
@@ -467,7 +467,7 @@ function renderClosing() {
   const el = document.getElementById(`slide-${QUESTIONS.length+1}`);
   if (!el) return;
   const faixa = answers[4];
-  const sub30k = ["Ainda não faturo","Até R$ 10 mil","R$ 10 mil a R$ 50 mil"].includes(faixa);
+  const sub30k = ["Ainda não faturo","Até R$ 10 mil","R$ 10 mil a R$ 30 mil"].includes(faixa);
   let tag, h2, p, btn;
   if (sub30k) {
     tag = "Obrigado pelas respostas!";
