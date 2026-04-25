@@ -311,6 +311,7 @@ const QUESTIONS = [
 ];
 
 const WHATSAPP_URL = 'https://wa.me/5534997285143?text=Oi%20Lucas%2C%20acabei%20de%20enviar%20minha%20aplica%C3%A7%C3%A3o';
+const CURSOS_URL   = 'https://claudesemcodigo.winneria.com.br/';
 
 const KEYS = 'ABCDEFGHIJKLMNOP';
 const answers = {};
@@ -465,10 +466,20 @@ function validate(idx) {
 function renderClosing() {
   const el = document.getElementById(`slide-${QUESTIONS.length+1}`);
   if (!el) return;
-  const tag = "Aplicação recebida";
-  const h2  = "Maravilha! Vamos analisar sua aplicação e te enviamos mensagem em até 24h!";
-  const p   = "Agora clique no botão abaixo pra falar no WhatsApp sobre sua aplicação e tirar qualquer dúvida 👇";
-  const btn = `<a class="btn" style="margin-top:2rem;text-decoration:none" href="${WHATSAPP_URL}" target="_blank" rel="noopener">Falar no WhatsApp →</a>`;
+  const faixa = answers[4];
+  const sub30k = ["Ainda não faturo","Até R$ 10 mil","R$ 10 mil a R$ 50 mil"].includes(faixa);
+  let tag, h2, p, btn;
+  if (sub30k) {
+    tag = "Obrigado pelas respostas!";
+    h2  = "O melhor momento pra você aprender sobre IA é agora.";
+    p   = "Pra quem está nesse estágio, o caminho mais inteligente é o nosso treinamento prático — você aprende no seu ritmo e já começa a aplicar no seu negócio.";
+    btn = `<a class="btn" style="margin-top:2rem;text-decoration:none" href="${CURSOS_URL}" target="_blank" rel="noopener">Conhecer o treinamento →</a>`;
+  } else {
+    tag = "Aplicação recebida";
+    h2  = "Maravilha! Vamos analisar sua aplicação e te enviamos mensagem em até 24h!";
+    p   = "Agora clique no botão abaixo pra falar no WhatsApp sobre sua aplicação e tirar qualquer dúvida 👇";
+    btn = `<a class="btn" style="margin-top:2rem;text-decoration:none" href="${WHATSAPP_URL}" target="_blank" rel="noopener">Falar no WhatsApp →</a>`;
+  }
   el.innerHTML = `
     <div class="tag">${tag}</div>
     <h2>${h2}</h2>
