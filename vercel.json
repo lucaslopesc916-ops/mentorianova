@@ -2,6 +2,12 @@
   "redirects": [
     {
       "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "mentoria.winneria.com.br"
+        }
+      ],
       "destination": "https://programaaceleracao.winneria.com.br/$1",
       "permanent": true
     }
