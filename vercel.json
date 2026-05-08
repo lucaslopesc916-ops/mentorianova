@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://programaaceleracao.winneria.com.br/$1",
+      "permanent": true
+    }
+  ]
+}
