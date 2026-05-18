@@ -586,10 +586,8 @@ async function notifyLead() {
   let numero = (answers[7] || '').replace(/\D/g, '');
   if (!numero) return;
   if (!numero.startsWith('55')) numero = '55' + numero;
-  const oQueFaz    = answers[1] || 'sua área';
-  const problema   = answers[3] || 'seus desafios atuais';
   const text =
-    `Opa! Vi aqui que preencheu o formulário e que hoje tem uma empresa de *${oQueFaz}* e que busca resolver *${problema}*.\n\nMe conta: o que hoje mais tá te travando ou te fazendo perder dinheiro/tempo no seu negócio que você acredita que a IA poderia resolver?`;
+    `Olá! Aqui é da Equipe do Lucas Lopes 😊\n\nVi que preencheu o forms pra conhecer mais sobre nosso acompanhamento em I.A\n\nMe permite fazer algumas perguntas pra entender melhor seu cenário?`;
   try {
     await fetch(`${STEVO_URL}/send/text`, {
       method: 'POST',
